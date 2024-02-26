@@ -1,0 +1,129 @@
+public class Taller4 
+    import javax.swing.*;
+    import java.awt.event.*;
+    import java.util.HashMap;
+    
+    public class FacturaApp extends JFrame {
+        private JTextField tfNumeroFactura, tfCliente, tfMonto;
+        private JTextArea taRegistro;
+        private JButton btnRegistrar, btnConsultar, btnSalir;
+        private HashMap<String, Factura> facturas;
+    
+        public FacturaApp() {
+            setTitle("Registro de Facturas");
+            setSize(400, 300);
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            setLayout(null);
+    
+            facturas = new HashMap<>();
+    
+            JLabel lblNumeroFactura = new JLabel("Número de Factura:");
+            lblNumeroFactura.setBounds(20, 20, 120, 20);
+            add(lblNumeroFactura);
+    
+            tfNumeroFactura = new JTextField();
+            tfNumeroFactura.setBounds(150, 20, 200, 20);
+            add(tfNumeroFactura);
+    
+            JLabel lblCliente = new JLabel("Cliente:");
+            lblCliente.setBounds(20, 50, 120, 20);
+            add(lblCliente);
+    
+            tfCliente = new JTextField();
+            tfCliente.setBounds(150, 50, 200, 20);
+            add(tfCliente);
+    
+            JLabel lblMonto = new JLabel("Monto:");
+            lblMonto.setBounds(20, 80, 120, 20);
+            add(lblMonto);
+    
+            tfMonto = new JTextField();
+            tfMonto.setBounds(150, 80, 200, 20);
+            add(tfMonto);
+    
+            btnRegistrar = new JButton("Registrar Factura");
+            btnRegistrar.setBounds(20, 110, 150, 30);
+            add(btnRegistrar);
+    
+            btnConsultar = new JButton("Consultar Factura");
+            btnConsultar.setBounds(200, 110, 150, 30);
+            add(btnConsultar);
+    
+            taRegistro = new JTextArea();
+            taRegistro.setBounds(20, 150, 330, 80);
+            add(taRegistro);
+    
+            btnSalir = new JButton("Salir");
+            btnSalir.setBounds(200, 240, 150, 30);
+            add(btnSalir);
+    
+            btnRegistrar.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    registrarFactura();
+                }
+            });
+    
+            btnConsultar.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    consultarFactura();
+                }
+            });
+    
+            btnSalir.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    System.exit(0);
+                }
+            });
+        }
+    
+        private void registrarFactura() {
+            String numeroFactura = tfNumeroFactura.getText();
+            String cliente = tfCliente.getText();
+            String monto = tfMonto.getText();
+    
+            facturas.put(numeroFactura, new Factura(cliente, monto));
+    
+            String registro = "Factura: " + numeroFactura + ", Cliente: " + cliente + ", Monto: " + monto;
+            taRegistro.append(registro + "\n");
+    
+            tfNumeroFactura.setText("");
+            tfCliente.setText("");
+            tfMonto.setText("");
+        }
+    
+        private void consultarFactura() {
+            String numeroFactura = tfNumeroFactura.getText();
+            Factura factura = facturas.get(numeroFactura);
+            if (factura != null) {
+                taRegistro.setText("Factura: " + numeroFactura + ", Cliente: " + factura.getCliente() + ", Monto: " + factura.getMonto());
+            } else {
+                taRegistro.setText("Factura no se encuentra registrada");
+            }
+        }
+    
+        public static void main(String[] args) {
+            FacturaApp app = new FacturaApp();
+            app.setVisible(true);
+        }
+    }
+    
+    class Factura {
+        private String cliente;
+        private String monto;
+    
+        public Factura(String cliente, String monto) {
+            this.cliente = cliente;
+            this.monto = monto;
+        }
+    
+        public String getCliente() {
+            return cliente;
+        }
+    
+        public String getMonto() {
+            return monto;
+        }
+    }
+
+
+
